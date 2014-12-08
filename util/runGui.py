@@ -16,7 +16,7 @@ def run_gui(w):
     stateList = initStateList()
     print stateList
     valueDic, policyDic = initDict(stateList)
-    valueDic, policyDic = solver(valueDic, policyDic, w, 0.1)
+    valueDic, policyDic = solver(valueDic, policyDic, w, 0)
 
     # init pygame
     pygame.init()
@@ -25,9 +25,9 @@ def run_gui(w):
     background = pygame.image.load('resources/image/map.png')
     #define the position of lane, bias, speed of player, speed of every lane
     line_dist = 10
-    pos_list = [0+line_dist,60+line_dist,120+line_dist,180+line_dist,240+line_dist] #position
+    pos_list = [0+line_dist, 60+line_dist, 120+line_dist, 180+line_dist, 240+line_dist] #position
     player_speed = 300
-    speed_list = [200,160,100]
+    speed_list = [200, 160, 100]
     speed_list = [player_speed - speed_list[i] for i in range(len(speed_list))] #speed gap
     #set parameter
     plane_img = pygame.image.load('resources/image/carblack.png')
@@ -39,7 +39,7 @@ def run_gui(w):
     # set player's parameter
     plane_img = pygame.image.load('resources/image/car.png')
     player_rect = pygame.Rect(0, 0, 29, 45)
-    player_pos = [120+ line_dist, 560]
+    player_pos = [120 + line_dist, 560]
     player = Player(plane_img,player_rect, player_pos)
 
 
@@ -71,7 +71,7 @@ def run_gui(w):
             for i in range(3):
                 if len(enemies1) == 0 or random.randint(0, 50)>=(45-5*i):
                     enemy1_pos = [pos_list[i+1], 0]
-                    enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos,speed_list[i])
+                    enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos, speed_list[i])
                     enemies1.add(enemy1)
             car_time = 0
         for enemy in enemies1:

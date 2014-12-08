@@ -7,8 +7,8 @@ from sys import exit
 from pygame.locals import *
 import random
 
-SCREEN_WIDTH = 300
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 185
+SCREEN_HEIGHT = 660
 
 #import background image
 background = pygame.image.load('resources/image/map.png')
@@ -19,8 +19,14 @@ class Player(pygame.sprite.Sprite):
         self.image = plane_img.subsurface(player_rect)
         self.rect = init_pos
         self.speed = 60
+        self.speedGap = 60
         self.is_hit= False
-        
+    def speedUp(self):
+        if self.speedGap>0:
+            self.speedGap -= 60
+    def slowDown(self):
+        if self.speedGap<180:
+            self.speedGap += 60
     def moveLeft(self):
         if self.rect[0] > self.speed:
             self.rect[0] -= self.speed
@@ -39,6 +45,8 @@ class Enemy(pygame.sprite.Sprite):
        self.speed = ini_speed
        self.down_index = 0
        self.pos = 0.0
-    def move(self,seconds):
+    def setSpeed(self, newSpeed):
+        self.speed = newSpeed
+    def move(self, seconds):
         self.pos += self.speed*seconds
         self.rect.top = self.pos
