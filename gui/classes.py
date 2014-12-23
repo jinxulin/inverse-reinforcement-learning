@@ -13,7 +13,7 @@ background = pygame.image.load('resources/image/map.png')
 
 #define the position of lane, bias, speed of player, speed of every lane
 line_dist = 10
-pos_list = array([0, 60, 120, 180, 240])+line_dist  # position
+pos_list = array([0, 60, 120, 180, 240]) + line_dist  # position
 player_speed = 300
 speed_list = array([200, 160, 100])
 speed_list = player_speed - speed_list  # speed gap
