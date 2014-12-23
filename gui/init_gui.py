@@ -6,7 +6,6 @@ SCREEN_HEIGHT = 660
 background = pygame.image.load('resources/image/map.png')
 
 
-
 #create class Player
 class Player(pygame.sprite.Sprite):
     def __init__(self, init_pos):
@@ -38,6 +37,7 @@ class Player(pygame.sprite.Sprite):
 #create class Enemy
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, init_pos, ini_speed):
+        pygame.sprite.Sprite.__init__(self)
         enemy_img = pygame.image.load('resources/image/carblack.png')
         enemy_rect = pygame.Rect(0, 0, 29, 45)
         self.image = enemy_img.subsurface(enemy_rect)
