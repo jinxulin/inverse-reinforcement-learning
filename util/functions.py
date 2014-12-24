@@ -35,21 +35,29 @@ def indexToState(idx):
 
 
 #convert index to state
-def stateToIndex(s):
-    idx = s[0]*1000+s[1]*100 + s[2]*10 +s[3]
+def state_to_index(s):
+    idx = s[0]*10000 + s[1]*1000 + s[2]*100 + s[3]*10 + s[4]
     return idx
 
 
 #get action from two index
-def getAction(index1,index2):
-    s1= int(index1/1000)
-    s2= int(index2/1000)
-    if s1==s2:
-        return 0
-    elif s2>s1:
+def get_action(index1, index2):
+    s1 = int(index1 / 10000)
+    s2 = int(index2 / 10000)
+    speed1 = int(index1 % 10)
+    speed2 = int(index2 % 10)
+
+    if s2 > s1:
         return 1
-    else:
+    elif s2 < s1:
         return 2
+
+    if speed1 > speed2:
+        return 3
+    elif speed1 < speed2:
+        return 4
+
+    return 0
 
 #get next index
 def nextIndex(index, a):

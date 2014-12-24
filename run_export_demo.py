@@ -6,10 +6,11 @@ control the player's car by keyboard (up, down, speed_up, speed_down)
 record state and export's action at that state
 """
 
-import random
 from numpy import array
+import random
 from gui.gui_classes import *
 from pygame.locals import *
+from util.functions import *
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -20,7 +21,6 @@ line_dist = 13
 pos_list = line_dist + array([0, 60, 120])  # position
 player_speed = 120
 speed_list = array([90, 60, 30])
-speed_list = player_speed - speed_list  # speed gap
 
 # init player and enemies
 player_pos = [120 + line_dist, 480]
@@ -28,7 +28,10 @@ player = Player(player_pos, player_speed)
 enemies = pygame.sprite.Group()
 
 # other parameters
-state = array([2, 8, 8, 8, player.speed])
+state = array([2, 8, 8, 8, player.speed/30])
+export_records = []
+num_write = 120
+old_state_index = state_to_index(state)
 clock = pygame.time.Clock()
 generate_time = 0  # time to build a new car
 Time = 1000
@@ -50,17 +53,17 @@ while True:
         for i in range(3):
             if len(enemies) == 0 or random.randint(0, 50) >= (45 - i * 5):
                 enemy_pos = [pos_list[i], 0]
-                enemy = Enemy(enemy_pos, speed_list[i])
+                enemy = Enemy(enemy_pos, speed_list[i], player.speed)
                 enemies.add(enemy)
         generate_time = 0
 
     # move the enemy
     for enemy in enemies:
-        #enemy.set_speed(enemy.speed - player.speed)  # update the speed
+        idx = list(pos_list).index(enemy.rect[0])
+        enemy.set_environment_speed(player.speed)
         enemy.move(time_passed_seconds)
-        if enemy.rect.top < 0:
+        if enemy.rect.top < 0 or enemy.rect.top > 660:
             enemies.remove(enemy)
-        #enemy.set_speed(enemy.speed + player.speed)
     enemies.draw(screen)
 
     # update the screen
@@ -75,7 +78,9 @@ while True:
         state[idx_enemy] = min([int(abs(player.rect[1] - enemy.rect[1])/60), state[idx_enemy]])
     #get the current lane
     state[0] = list(pos_list).index(player.rect[0])
-    print state
+    state_index = state_to_index(state)
+    new_state_index = state_index
+    print state_index
 
     #keybroad control
     if not key_push:
@@ -97,20 +102,18 @@ while True:
         if not (pressed_keys[K_LEFT] or pressed_keys[K_RIGHT] or pressed_keys[K_UP] or pressed_keys[K_DOWN]):
             key_push = False
 
-    '''
     #------------------record-----------------------#
-    if newStateIndex != oldStateIndex:
-        exportRecords.append([oldStateIndex, getAction( newStateIndex, oldStateIndex)])
-        oldStateIndex = newStateIndex
-        writeNum -= 1
-    if writeNum<=0:
-        f = open("data/export.txt","a")
-        for line in exportRecords:
+    if new_state_index != old_state_index:
+        export_records.append([old_state_index, get_action(new_state_index, old_state_index)])
+        old_state_index = new_state_index
+        num_write -= 1
+    if num_write <= 0:
+        f = open("data/export.txt", "a")
+        for line in export_records:
             f.write(str(line[0])+"\t"+str(line[1])+"\n")
         f.close()
-        writeNum=120
+        num_write = 120
         print "written"
-    '''
 
     # exit the game
     for event in pygame.event.get():

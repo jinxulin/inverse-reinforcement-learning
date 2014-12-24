@@ -9,12 +9,12 @@ background = pygame.image.load('resources/image/map.png')
 
 #create class Player
 class Player(pygame.sprite.Sprite):
-    def __init__(self, init_pos, ini_speed):
+    def __init__(self, init_pos, init_speed):
         player_img = pygame.image.load('resources/image/car.png')
         player_rect = pygame.Rect(0, 0, 29, 45)
         self.image = player_img.subsurface(player_rect)
         self.rect = init_pos
-        self.speed = ini_speed
+        self.speed = init_speed
         self.speed_horizontal = 60
         self.is_hit = False
 
@@ -37,22 +37,44 @@ class Player(pygame.sprite.Sprite):
 
 #create class Enemy
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, init_pos, ini_speed):
+    def __init__(self, init_pos, init_speed, init_environment_speed):
         pygame.sprite.Sprite.__init__(self)
         enemy_img = pygame.image.load('resources/image/carblack.png')
         enemy_rect = pygame.Rect(0, 0, 29, 45)
         self.image = enemy_img.subsurface(enemy_rect)
         self.rect = self.image.get_rect()
         self.rect.topleft = init_pos
-        self.speed = ini_speed
-        self.down_index = 0
+        self.speed = init_speed
         self.pos = 0.0
+        self.environment_speed = init_environment_speed
 
-    def set_speed(self, new_speed):
-        self.speed = new_speed
+    def set_environment_speed(self, new_speed):
+        self.environment_speed = new_speed
 
     def move(self, seconds):
-        self.pos += self.speed * seconds * GUI_SPEED_MULTIPLE
+        down_speed = self.environment_speed - self.speed
+        self.pos += down_speed * seconds * GUI_SPEED_MULTIPLE
+        self.rect.top = self.pos
+
+#create class guidepost
+class Guidepost(pygame.sprite.Sprite):
+    def __init__(self, init_pos, init_environment_speed):
+        pygame.sprite.Sprite.__init__(self)
+        enemy_img = pygame.image.load('resources/image/carblack.png')
+        enemy_rect = pygame.Rect(0, 0, 29, 45)
+        self.image = enemy_img.subsurface(enemy_rect)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = init_pos
+        self.speed = 0
+        self.pos = 0.0
+        self.environment_speed = init_environment_speed
+
+    def set_environment_speed(self, new_speed):
+        self.environment_speed = new_speed
+
+    def move(self, seconds):
+        down_speed = self.environment_speed - self.speed
+        self.pos += down_speed * seconds * GUI_SPEED_MULTIPLE
         self.rect.top = self.pos
 
 
