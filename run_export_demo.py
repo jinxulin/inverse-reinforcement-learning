@@ -25,6 +25,8 @@ speed_list = array([90, 60, 30])
 # init player and enemies
 player_pos = [120 + line_dist, 480]
 player = Player(player_pos, player_speed)
+lguidepost = Guidepost((0, 0), player.speed)
+rguidepost = Guidepost((175, 0), player.speed)
 enemies = pygame.sprite.Group()
 
 # other parameters
@@ -47,6 +49,8 @@ while True:
     screen.fill(0)
     screen.blit(background, (0, 0))
     screen.blit(player.image, player.rect)
+    screen.blit(lguidepost.image, lguidepost.rect)
+    screen.blit(rguidepost.image, rguidepost.rect)
 
     # generate the car randomly
     if generate_time >= Time:
@@ -57,6 +61,15 @@ while True:
                 enemies.add(enemy)
         generate_time = 0
 
+    # move the guidepost
+    lguidepost.set_environment_speed(player.speed)
+    lguidepost.move(time_passed_seconds)
+    rguidepost.set_environment_speed(player.speed)
+    rguidepost.move(time_passed_seconds)
+    if lguidepost.rect.top < 0 or lguidepost.rect.top > 660:
+        lguidepost = Guidepost((0, 0), player.speed)
+    if rguidepost.rect.top < 0 or rguidepost.rect.top > 660:
+        rguidepost = Guidepost((175, 0), player.speed)
     # move the enemy
     for enemy in enemies:
         idx = list(pos_list).index(enemy.rect[0])
@@ -80,7 +93,6 @@ while True:
     state[0] = list(pos_list).index(player.rect[0])
     state_index = state_to_index(state)
     new_state_index = state_index
-    print state_index
 
     #keybroad control
     if not key_push:
