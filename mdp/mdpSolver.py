@@ -5,7 +5,6 @@ sove the mdp by value iterator
 # solve mdp model
 from util.functions import *
 from numpy import *
-import os
 
 #create state list
 def initStateList():
