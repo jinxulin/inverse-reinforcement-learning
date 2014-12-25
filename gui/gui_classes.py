@@ -62,7 +62,7 @@ class Guidepost(pygame.sprite.Sprite):
     def __init__(self, init_pos, init_environment_speed):
         pygame.sprite.Sprite.__init__(self)
         enemy_img = pygame.image.load('resources/image/guidepost.png')
-        enemy_rect = pygame.Rect(20, 15, 10, 3)
+        enemy_rect = pygame.Rect(20, 15, 8, 3)
         self.image = enemy_img.subsurface(enemy_rect)
         self.rect = self.image.get_rect()
         self.rect.topleft = init_pos
