@@ -3,4 +3,4 @@ Reference: 	Pieter Abbeel et al.  apprenticeship learning via inverse reinforcem
 """
 from util.functions import *
 
-print init_state_list([5, 9, 9, 9, 9])
+

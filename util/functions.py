@@ -1,6 +1,7 @@
 #encoding:utf-8
 from numpy import *
 import random
+import copy
 
 
 #create the state list
@@ -42,7 +43,7 @@ def compute_fi(s):
 
 #get next state
 def next_state(state, a):
-    s = state
+    s = copy.copy(state)
     for i in range(3):
         if s[i+1] > 0:
             s[i+1] -= 1
@@ -50,6 +51,10 @@ def next_state(state, a):
         s[0] -= 1
     elif s[0] != 4 and a == 2:
         s[0] += 1
+    elif s[4] != 5 and a == 3:
+        s[4] += 1
+    elif s[4] != 0 and a == 4:
+        s[4] -= 1
     return s
 
 
