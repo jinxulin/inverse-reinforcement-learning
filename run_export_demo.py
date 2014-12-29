@@ -8,6 +8,7 @@ record state and export's action at that state
 
 from numpy import array
 import random
+import os
 from gui.gui_classes import *
 from pygame.locals import *
 from util.functions import *
@@ -121,23 +122,21 @@ while True:
 
     #write data to export.txt
     if record_time > Time/10:
-        export_records.append([old_state, get_action(old_state, new_state)])
+        export_records.append(list(old_state) + [get_action(old_state, new_state)])
+        num_write -= 1
+        old_state = new_state
         record_time = 0
 
-
-    """
-    if new_state_index != old_state_index:
-        export_records.append([old_state_index, get_action(new_state_index, old_state_index)])
-        old_state_index = new_state_index
-        num_write -= 1
     if num_write <= 0:
-        f = open("data/export.txt", "a")
+        if os.path.isfile("data/export.txt"):
+            f = open("data/export.txt", "a")
+        else:
+            f = open("data/export.txt", "w")
         for line in export_records:
-            f.write(str(line[0]) + "\t" + str(line[1]) + "\n")
+            f.write('\t'.join([str(item) for item in line]) + "\n")
         f.close()
         num_write = 120
         print "written"
-    """
 
     # exit the game
     for event in pygame.event.get():
