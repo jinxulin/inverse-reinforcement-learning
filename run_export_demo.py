@@ -29,12 +29,13 @@ guidepost_list = [Guidepost((0, 0), player.speed), Guidepost((175, 0), player.sp
 enemies = pygame.sprite.Group()
 
 # other parameters
-state = array([2, 8, 8, 8, player.speed/30])
+state = array([2, 480, 480, 480, player.speed/30])
+old_state = state
 export_records = []
 num_write = 120
-old_state_index = state_to_index(state)
 clock = pygame.time.Clock()
 generate_time = 0  # time to build a new car
+record_time = 0  # time to write a record
 Time = 1000
 key_push = False
 fonts = pygame.font.get_fonts()
@@ -45,6 +46,7 @@ while True:
     time_passed = clock.tick()
     time_passed_seconds = time_passed / 1000.0
     generate_time += time_passed
+    record_time += time_passed
 
     # build the player's car and background
     screen.fill(0)
@@ -87,16 +89,15 @@ while True:
     pygame.display.update()
 
     #get the state of three lane
-    state = array([2, 8, 8, 8, player.speed/30])
+    state = array([2, 480, 480, 480, player.speed/30])
     for enemy in enemies:
         if (player.rect[1] - enemy.rect[1]) < -60:
             continue
         idx_enemy = list(pos_list).index(enemy.rect[0]) + 1
-        state[idx_enemy] = min([int(abs(player.rect[1] - enemy.rect[1])/60), state[idx_enemy]])
+        state[idx_enemy] = min([int(abs(player.rect[1] - enemy.rect[1])), state[idx_enemy]])
     #get the current lane
     state[0] = list(pos_list).index(player.rect[0])
-    state_index = state_to_index(state)
-    new_state_index = state_index
+    new_state = state
 
     #keybroad control
     if not key_push:
@@ -119,6 +120,12 @@ while True:
             key_push = False
 
     #write data to export.txt
+    if record_time > Time/10:
+        export_records.append([old_state, get_action(old_state, new_state)])
+        record_time = 0
+
+
+    """
     if new_state_index != old_state_index:
         export_records.append([old_state_index, get_action(new_state_index, old_state_index)])
         old_state_index = new_state_index
@@ -130,6 +137,7 @@ while True:
         f.close()
         num_write = 120
         print "written"
+    """
 
     # exit the game
     for event in pygame.event.get():

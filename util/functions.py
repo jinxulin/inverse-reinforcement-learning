@@ -4,18 +4,6 @@ import random
 import copy
 
 
-#create the state list
-def init_state_list(max_value_list):
-    state_list = list()
-    for i in range(max_value_list[0]):
-        for j in range(max_value_list[1]):
-            for k in range(max_value_list[2]):
-                for l in range(max_value_list[3]):
-                    for n in range(max_value_list[4]):
-                        state_list.append(state_to_index([i, j, k, l, n]))
-    return state_list
-
-
 #create value dict
 def init_value_dict(state_list):
     value_dict = dict()
@@ -76,14 +64,14 @@ def state_to_index(s):
 
 
 #get action from two index
-def get_action(index1, index2):
-    s1 = int(index1 / 10000)
-    s2 = int(index2 / 10000)
-    speed1 = int(index1 % 10)
-    speed2 = int(index2 % 10)
-    if s2 > s1:
+def get_action(s1, s2):
+    lane1 = s1[0]
+    lane2 = s2[0]
+    speed1 = s1[4]
+    speed2 = s1[4]
+    if lane2 > lane1:
         return 1
-    elif s2 < s1:
+    elif lane2 < lane1:
         return 2
     if speed1 > speed2:
         return 3
