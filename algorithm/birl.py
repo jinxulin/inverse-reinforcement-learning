@@ -1,7 +1,9 @@
-from mdp.PolicyIterator import *
-from algorithm.birlFunctions import *
-from numpy import *
 import copy
+
+from numpy import *
+
+from archive.PolicyIterator import *
+from algorithm.birlFunctions import *
 
 
 def birlSolver():

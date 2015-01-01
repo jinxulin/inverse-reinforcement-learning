@@ -1,15 +1,15 @@
-import numpy as np
+"""
+create by Kintoki at 2014-12-30
+"""
+
+from mdp.reward import Reward
 
 
-#define model
 class State(object):
     pass
 
 
 class Action(object):
-    """
-    Action in an MDP
-    """
     pass
 
 
@@ -21,23 +21,14 @@ class Model(object):
         self._gamma = 0.9
         self._reward_function = Reward()
 
-    def T(self,state,action):
+    def trans(self, state, action):
         """Returns a function state -> [0,1] for probability of next state
         given currently in state performing action"""
         raise NotImplementedError()
 
-    def R(self,state, action):
+    def reward(self, state, action):
         """Returns a reward for performing action in state"""
-        return self.reward_function.reward(state,action)
-
-    def S(self):
-        """All states in the MDP"""
-        raise NotImplementedError()
-
-    def A(self, state=None):
-        """All actions in the MDP is state=None, otherwise actions available
-        from state"""
-        raise NotImplementedError()
+        return self.reward_function.reward(state, action)
 
     @property
     def gamma(self):
@@ -55,7 +46,3 @@ class Model(object):
     @reward_function.setter
     def reward_function(self, rf):
         self._reward_function = rf
-
-    def is_terminal(self, state):
-        """returns whether or not a state is terminal"""
-        raise NotImplementedError()
