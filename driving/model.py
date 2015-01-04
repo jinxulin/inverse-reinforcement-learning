@@ -1,4 +1,5 @@
 from mdp.model import *
+from driving.reward import DrivingReward
 from numpy import array
 import random
 
@@ -96,6 +97,7 @@ class DrivingModel(Model):
     def __init__(self):
         super(Model, self).__init__()
         self.environment = Environment()
+        self._reward_function = DrivingReward()
 
     def trans(self, state, act):
         self.environment.action(act)

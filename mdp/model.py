@@ -15,7 +15,7 @@ class Action(object):
 
 class Model(object):
     """
-    A MDP Model (S,A,T,R,gamma)
+    a mdp model
     """
     def __init__(self):
         self._gamma = 0.9
@@ -28,7 +28,7 @@ class Model(object):
 
     def reward(self, state, action):
         """Returns a reward for performing action in state"""
-        return self.reward_function.reward(state, action)
+        return self.reward_function.get_reward(state, action)
 
     @property
     def gamma(self):

@@ -20,7 +20,7 @@ class Reward(object):
     def params(self, _params):
         self._params = _params
 
-    def reward(self, state, action):
+    def get_reward(self, state, action):
         raise NotImplementedError()
 
 
@@ -37,5 +37,6 @@ class LinearReward(Reward):
     def dim(self):
         raise NotImplementedError()
 
-    def reward(self, state, action):
-        return dot(self.params, self.features(state,action))
+    def get_reward(self, state, action):
+        print self.features(state, action)
+        return dot(self._params, self.features(state, action))
