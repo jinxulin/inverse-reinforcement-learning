@@ -1,9 +1,11 @@
 from mdp.model import *
 from driving.reward import DrivingReward
-from numpy import array
+import numpy as np
 import random
+import copy
 
 GUI_SPEED_MULTIPLE = 2
+SPEED_LIST = [30, 60, 90]
 
 
 class Car(object):
@@ -48,8 +50,8 @@ class Environment(object):
     def __init__(self):
         self.player = MyCar(1, 480, 120)
         self.car_group = []
-        self.speed_list = [30, 60, 90]
-        self.state = array([1, 480, 480, 480, self.player.speed])
+        self.speed_list = SPEED_LIST
+        self.state = np.array([1, 480, 480, 480, self.player.speed])
         self.time_step = 0.1
         self.time_generate_car = 0
         self.gap_generate_car = 1
@@ -98,8 +100,31 @@ class DrivingModel(Model):
         super(Model, self).__init__()
         self.environment = Environment()
         self._reward_function = DrivingReward()
+        self.dim = 9
 
     def trans(self, state, act):
         self.environment.action(act)
         self.environment.next_full_state()
         return self.environment.get_state()
+
+    def predict(self, state_in, act):
+        state = np.array(copy.copy(state_in))
+        state[1:4] -= np.array(SPEED_LIST) * 0.1
+        for i in range(len(state)):
+            if state[i] < -60:
+                state[i] = 480
+        if act == 1 and state[0] > 1:
+            state[0] -= 1
+        elif act == 2 and state[0] < 2:
+            state[0] += 1
+        elif act == 3 and state[4] < 150:
+            state[4] += 30
+        elif act == 4 and state[4] > 30:
+            state[4] -= 30
+        return state
+
+    def current_state(self):
+        return self.environment.get_state()
+
+
+

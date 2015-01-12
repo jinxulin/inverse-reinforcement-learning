@@ -6,7 +6,7 @@ class DrivingReward(LinearReward):
     def __init__(self):
         super(LinearReward, self).__init__()
 
-    def features(self, state, action):
+    def features(self, state, action=None):
         """features:
            0~2:lane   3~7:speed    8: is crashed
         """

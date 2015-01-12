@@ -1,5 +1,6 @@
 from driving.model import *
 from driving.reward import DrivingReward
+from mdp.solver import QLearningSolver
 import numpy as np
 """
 car_groups = []
@@ -16,9 +17,7 @@ reward = DrivingReward()
 reward.params = np.array([0.1, 0, 0, 0, 0, 0, 0, 1, -2])
 model = DrivingModel()
 model.reward_function = reward
-for i in range(200):
-    action = random.randint(0, 4)
-    state = model.trans(None, action)
-    print state
-    print model.reward(state, action)
-    print action
+model.dim = 9
+qsolver = QLearningSolver(1000)
+
+agent = qsolver.solve(model)

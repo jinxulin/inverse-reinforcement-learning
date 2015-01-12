@@ -21,12 +21,17 @@ class Model(object):
         self._gamma = 0.9
         self._reward_function = Reward()
 
+    # executor the action
     def trans(self, state, action):
         """Returns a function state -> [0,1] for probability of next state
         given currently in state performing action"""
         raise NotImplementedError()
 
-    def reward(self, state, action):
+    # predict the next state, but not executor
+    def predict(self, state, action):
+        raise NotImplementedError()
+
+    def reward(self, state, action=None):
         """Returns a reward for performing action in state"""
         return self.reward_function.get_reward(state, action)
 
