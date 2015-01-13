@@ -109,11 +109,11 @@ class DrivingModel(Model):
 
     def predict(self, state_in, act):
         state = np.array(copy.copy(state_in))
-        state[1:4] -= np.array(SPEED_LIST) * 0.1
+        state[1:4] -= np.array(SPEED_LIST) * 0.2 * GUI_SPEED_MULTIPLE
         for i in range(len(state)):
             if state[i] < -60:
                 state[i] = 480
-        if act == 1 and state[0] > 1:
+        if act == 1 and state[0] > 0:
             state[0] -= 1
         elif act == 2 and state[0] < 2:
             state[0] += 1

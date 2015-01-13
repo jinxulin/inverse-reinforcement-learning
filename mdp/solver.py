@@ -39,8 +39,6 @@ class QLearningSolver(MDPSolver):
         agent = mdp.agent.QValueAgent(w)
         for i in range(self.max_iter):
             agent = self.iterator(model, model.current_state(), agent)
-            print model.current_state()
-            print agent.param
         return agent
 
 

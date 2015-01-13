@@ -18,7 +18,7 @@ class Model(object):
     a mdp model
     """
     def __init__(self):
-        self._gamma = 0.9
+        self._gamma = 0.5
         self._reward_function = Reward()
 
     # executor the action

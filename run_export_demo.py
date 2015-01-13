@@ -86,9 +86,6 @@ while True:
             enemies.remove(enemy)
     enemies.draw(screen)
 
-    # update the screen
-    pygame.display.update()
-
     #get the state of three lane
     state = array([2, 480, 480, 480, player.speed/30])
     for enemy in enemies:
@@ -131,12 +128,17 @@ while True:
         if os.path.isfile("data/export.txt"):
             f = open("data/export.txt", "a")
         else:
+            if not os.path.exists("data/"):
+                os.makedirs("data/")
             f = open("data/export.txt", "w")
         for line in export_records:
             f.write('\t'.join([str(item) for item in line]) + "\n")
         f.close()
         num_write = 120
         print "written"
+
+    # update the screen
+    pygame.display.update()
 
     # exit the game
     for event in pygame.event.get():
