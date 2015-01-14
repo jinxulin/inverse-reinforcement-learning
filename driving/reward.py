@@ -10,21 +10,15 @@ class DrivingReward(LinearReward):
         """features:
            0~2:lane   3~7:speed    8: is crashed
         """
-        fi = np.zeros(9)
+        fi = np.zeros(11)
         lane = state[0]
         speed_level = state[4]/30
-        is_crash = 0
+        distance = 480
         for i in range(3):
-            if lane == i and abs(state[i+1]) < 60:
-                is_crash = 1
+            if lane == i:
+                distance = min(distance, abs(state[i+1]))
         fi[lane] += 1
         fi[speed_level+2] += 1
-        fi[-1] = is_crash
+        if distance <= 120:
+            fi[8 + distance/60] += 1
         return fi
-
-
-
-
-
-
-

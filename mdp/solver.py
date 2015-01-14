@@ -12,11 +12,11 @@ class MDPSolver(object):
 
 class QLearningSolver(MDPSolver):
     def __init__(self, max_iter):
-        self.gamma = 0.8
+        self.gamma = 0
         self.alpha = 0.1
         self._lambda = 0.5
         self.max_iter = max_iter
-        self.z = np.zeros(9)
+        self.z = np.zeros(11)
 
     def iterator(self, model, state, agent):
         fi = model._reward_function.features(state)

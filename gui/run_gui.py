@@ -43,6 +43,7 @@ def run_gui(agent, model):
         time_passed_seconds = time_passed / 1000.0
         generate_time += time_passed
         action_time += time_passed
+        print time_passed
 
         # build the player's car and background
         screen.fill(0)
@@ -84,7 +85,7 @@ def run_gui(agent, model):
         #get the state of three lane
         state = array([2, 480, 480, 480, player.speed])
         for enemy in enemies:
-            if (player.rect[1] - enemy.rect[1]) < -60:
+            if (player.rect[1] - enemy.rect[1]) <= -60:
                 continue
             idx_enemy = list(pos_list).index(enemy.rect[0]) + 1
             state[idx_enemy] = min([int(abs(player.rect[1] - enemy.rect[1])), state[idx_enemy]])
@@ -97,8 +98,12 @@ def run_gui(agent, model):
         if model._reward_function.features(state)[8] > 0:
             while True:
                 print "is hit!!!!!!!!!!!!!!!!!!!!"
+                break
+            break
         print model._reward_function.params
         print model.reward(state)
+        print agent.param
+
         action = agent.take_action(model, state)
         if action == 1:
             player.move_left()

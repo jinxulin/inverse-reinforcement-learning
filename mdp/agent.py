@@ -22,9 +22,10 @@ class QValueAgent(Agent):
 
     def take_action(self, model, state):
         state_list = [model.predict(state, a) for a in self.action_set]
-        print state_list
-        print self.param
-        print [model._reward_function.features(s) for s in state_list]
+        #print state_list
+        #print self.param
+        #print [model._reward_function.features(s) for s in state_list]
         value_list = [np.dot(self.param, model._reward_function.features(s)) for s in state_list]
+        print value_list
         action = value_list.index(max(value_list))
         return action

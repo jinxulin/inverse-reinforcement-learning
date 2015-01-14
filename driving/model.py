@@ -5,7 +5,7 @@ import random
 import copy
 
 GUI_SPEED_MULTIPLE = 2
-SPEED_LIST = [30, 60, 90]
+SPEED_LIST = [90, 60, 30]
 
 
 class Car(object):
@@ -109,7 +109,7 @@ class DrivingModel(Model):
 
     def predict(self, state_in, act):
         state = np.array(copy.copy(state_in))
-        state[1:4] -= np.array(SPEED_LIST) * 0.2 * GUI_SPEED_MULTIPLE
+
         for i in range(len(state)):
             if state[i] < -60:
                 state[i] = 480
@@ -121,6 +121,9 @@ class DrivingModel(Model):
             state[4] += 30
         elif act == 4 and state[4] > 30:
             state[4] -= 30
+
+        player_speed = state[4]
+        state[1:4] -= (player_speed - np.array(SPEED_LIST)) * 0.1 * GUI_SPEED_MULTIPLE
         return state
 
     def current_state(self):

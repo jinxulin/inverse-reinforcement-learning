@@ -5,11 +5,11 @@ import numpy as np
 from gui.run_gui import *
 
 reward = DrivingReward()
-reward.params = np.array([0.5, 0.2, 0.1, 0, 0, 0.6, 0.8, 1, -3])
+reward.params = np.array([0.05, 0.02, 0.01, 0.2, 0.5, 0.6, 0.7, 0.8, -3, -0.05, -0.01])
 model = DrivingModel()
 model.reward_function = reward
-model.dim = 9
-qsolver = QLearningSolver(10000)
+model.dim = 11
+qsolver = QLearningSolver(5000)
 agent = qsolver.solve(model)
 print agent.param
 run_gui(agent, model)
