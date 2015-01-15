@@ -95,25 +95,29 @@ def run_gui(agent, model):
         #control by agent
         print state
         print model._reward_function.features(state)
+        """
         if model._reward_function.features(state)[8] > 0:
             while True:
                 print "is hit!!!!!!!!!!!!!!!!!!!!"
                 break
             break
+            """
         print model._reward_function.params
         print model.reward(state)
         print agent.param
 
-        action = agent.take_action(model, state)
-        if action == 1:
-            player.move_left()
-        elif action == 2:
-            player.move_right()
-        elif action == 3:
-            player.speed_up()
-        elif action == 4:
-            player.slow_down()
-        action_time = 0
+        if action_time > 0:
+            action = agent.take_action(model, state)
+            if action == 1:
+                player.move_left()
+            elif action == 2:
+                player.move_right()
+            elif action == 3:
+                player.speed_up()
+            elif action == 4:
+                player.slow_down()
+            print "action=", action
+            action_time = 0
 
         # update the screen
         pygame.display.update()

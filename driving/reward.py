@@ -5,12 +5,13 @@ import numpy as np
 class DrivingReward(LinearReward):
     def __init__(self):
         super(LinearReward, self).__init__()
+        self.dim = 11
 
     def features(self, state, action=None):
         """features:
-           0~2:lane   3~7:speed    8: is crashed
+           0~2:lane   3~7:speed    8: is crashed 9-10: distance
         """
-        fi = np.zeros(11)
+        fi = np.zeros(self.dim)
         lane = state[0]
         speed_level = state[4]/30
         distance = 480

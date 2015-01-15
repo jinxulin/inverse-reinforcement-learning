@@ -1,3 +1,0 @@
-"""
-continuous Q learning Algorithm
-"""

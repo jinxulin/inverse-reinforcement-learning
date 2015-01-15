@@ -30,7 +30,7 @@ guidepost_list = [Guidepost((0, 0), player.speed), Guidepost((175, 0), player.sp
 enemies = pygame.sprite.Group()
 
 # other parameters
-state = array([2, 480, 480, 480, player.speed/30])
+state = array([2, 480, 480, 480, player.speed])
 old_state = state
 export_records = []
 num_write = 120
@@ -87,7 +87,7 @@ while True:
     enemies.draw(screen)
 
     #get the state of three lane
-    state = array([2, 480, 480, 480, player.speed/30])
+    state = array([2, 480, 480, 480, player.speed])
     for enemy in enemies:
         if (player.rect[1] - enemy.rect[1]) < -60:
             continue

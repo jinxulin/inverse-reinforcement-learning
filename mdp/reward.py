@@ -33,9 +33,11 @@ class LinearReward(Reward):
     def features(self, state, action):
         raise NotImplementedError()
 
+    """
     @property
     def dim(self):
         raise NotImplementedError()
+    """
 
     def get_reward(self, state, action):
         print self.features(state, action)
