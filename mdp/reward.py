@@ -40,5 +40,4 @@ class LinearReward(Reward):
     """
 
     def get_reward(self, state, action):
-        print self.features(state, action)
         return dot(self._params, self.features(state, action))

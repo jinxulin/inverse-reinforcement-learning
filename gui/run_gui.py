@@ -10,12 +10,13 @@ import random
 from gui.gui_classes import *
 from pygame.locals import *
 from util.functions import *
+import os
 
 
-def run_gui(agent, model):
+def run_gui(agent, model, Time=1000, write=False, write_path=""):
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("car simulation: get export's data")
+    pygame.display.set_caption("car simulation: get expert's data")
 
     # define the position of lane, bias, speed of player, speed of every lane
     line_dist = 13
@@ -33,7 +34,12 @@ def run_gui(agent, model):
     clock = pygame.time.Clock()
     generate_time = 0  # time to build a new car
     action_time = 0
-    Time = 1000
+    num_episode = 6
+    num_write = 120
+    record_time = 0  # time to write a record
+    expert_records = []
+    state = array([2, 480, 480, 480, player.speed])
+    old_state = state
     fonts = pygame.font.get_fonts()
     my_font = pygame.font.SysFont("arial", 18)
 
@@ -43,7 +49,8 @@ def run_gui(agent, model):
         time_passed_seconds = time_passed / 1000.0
         generate_time += time_passed
         action_time += time_passed
-        print time_passed
+        record_time += time_passed
+        #print time_passed
 
         # build the player's car and background
         screen.fill(0)
@@ -93,8 +100,8 @@ def run_gui(agent, model):
         state[0] = list(pos_list).index(player.rect[0])
 
         #control by agent
-        print state
-        print model._reward_function.features(state)
+        #print state
+        #print model._reward_function.features(state)
         """
         if model._reward_function.features(state)[8] > 0:
             while True:
@@ -102,9 +109,9 @@ def run_gui(agent, model):
                 break
             break
             """
-        print model._reward_function.params
-        print model.reward(state)
-        print agent.param
+        #print model._reward_function.params
+        #print model.reward(state)
+        #print agent.param
 
         if action_time > 0:
             action = agent.take_action(model, state)
@@ -116,8 +123,31 @@ def run_gui(agent, model):
                 player.speed_up()
             elif action == 4:
                 player.slow_down()
-            print "action=", action
+            #print "action=", action
             action_time = 0
+
+        #write data to data.txt
+        if record_time > Time/10:
+            expert_records.append(list(old_state) + [get_action(old_state, state)])
+            num_write -= 1
+            old_state = state
+            record_time = 0
+        if num_write <= 0:
+            if os.path.isfile("data/data.txt") and num_episode == 6:
+                f = open("data/data.txt", "a")
+            else:
+                if not os.path.exists("data/"):
+                    os.makedirs("data/")
+                f = open("data/data.txt", "w")
+            for line in expert_records:
+                f.write('\t'.join([str(item) for item in line]) + "\n")
+            f.close()
+            num_write = 120
+            num_episode -= 1
+            print "written"
+
+        if num_episode <= 0:
+            break
 
         # update the screen
         pygame.display.update()

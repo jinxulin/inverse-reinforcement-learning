@@ -3,7 +3,7 @@
 """
 run the experiment environment
 control the player's car by keyboard (up, down, speed_up, speed_down)
-record state and export's action at that state
+record state and expert's action at that state
 """
 
 from numpy import array
@@ -15,7 +15,7 @@ from util.functions import *
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("car simulation: get export's data")
+pygame.display.set_caption("car simulation: get expert's data")
 
 # define the position of lane, bias, speed of player, speed of every lane
 line_dist = 13
@@ -32,7 +32,7 @@ enemies = pygame.sprite.Group()
 # other parameters
 state = array([2, 480, 480, 480, player.speed])
 old_state = state
-export_records = []
+expert_records = []
 num_write = 120
 clock = pygame.time.Clock()
 generate_time = 0  # time to build a new car
@@ -117,21 +117,21 @@ while True:
         if not (pressed_keys[K_LEFT] or pressed_keys[K_RIGHT] or pressed_keys[K_UP] or pressed_keys[K_DOWN]):
             key_push = False
 
-    #write data to export.txt
+    #write data to expert.txt
     if record_time > Time/10:
-        export_records.append(list(old_state) + [get_action(old_state, new_state)])
+        expert_records.append(list(old_state) + [get_action(old_state, new_state)])
         num_write -= 1
         old_state = new_state
         record_time = 0
 
     if num_write <= 0:
-        if os.path.isfile("data/export.txt"):
-            f = open("data/export.txt", "a")
+        if os.path.isfile("data/expert.txt"):
+            f = open("data/expert.txt", "a")
         else:
             if not os.path.exists("data/"):
                 os.makedirs("data/")
-            f = open("data/export.txt", "w")
-        for line in export_records:
+            f = open("data/expert.txt", "w")
+        for line in expert_records:
             f.write('\t'.join([str(item) for item in line]) + "\n")
         f.close()
         num_write = 120

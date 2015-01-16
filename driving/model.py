@@ -100,7 +100,7 @@ class DrivingModel(Model):
         super(Model, self).__init__()
         self.environment = Environment()
         self._reward_function = DrivingReward()
-        self.dim = 9
+        self.dim = 11
 
     def trans(self, state, act):
         self.environment.action(act)

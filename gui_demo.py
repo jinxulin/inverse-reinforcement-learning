@@ -12,7 +12,7 @@ from util.functions import *
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("car simulation: get export's data")
+pygame.display.set_caption("car simulation: get expert's data")
 
 # define the position of lane, bias, speed of player, speed of every lane
 line_dist = 13
