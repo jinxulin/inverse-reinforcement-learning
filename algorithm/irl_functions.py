@@ -20,3 +20,4 @@ def compute_expect_feature(expert_data, reward_function):
     for line in expert_data:
         expert_feature += reward_function.features(np.array(line[0:-1]))
     return expert_feature/sum(expert_feature)
+
