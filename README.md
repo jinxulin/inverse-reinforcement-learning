@@ -1,6 +1,6 @@
 inverse-reinforcement-learning
 ==============================
-### Now this project is unfinished.And it will be done in two weeks(2014-12-29).
+### Now this project is unfinished. And I still working for it.
 
 This is a simulation of inverse reinforcement learning
 
