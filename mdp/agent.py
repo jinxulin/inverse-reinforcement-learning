@@ -41,3 +41,6 @@ class QValueAgent(Agent):
         value_list = [np.dot(self.param, model._reward_function.features(s)) for s in state_list]
         p = [math.exp(v * alpha) for v in value_list]
         return p[a]/sum(p)
+
+
+
