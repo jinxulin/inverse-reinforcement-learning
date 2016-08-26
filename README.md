@@ -1,6 +1,6 @@
 inverse-reinforcement-learning
 ==============================
-### Now this project is unfinished. And I still working for it.
+### Now this project is unfinished.
 
 This is a simulation of inverse reinforcement learning
 
